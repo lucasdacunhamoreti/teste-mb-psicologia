@@ -6,7 +6,7 @@ services:
     container_name: backend
     tty: true
     stdin_open: true
-    command: bash -c "npm install && npx sequelize-cli db:create && npx sequelize db:migrate && npm start"
+    command: bash -c "npm install && npx -y tsc && npx sequelize-cli db:create && npx sequelize db:migrate && npm start"
     restart: always
     working_dir: /app-backend
     volumes:
@@ -15,6 +15,7 @@ services:
       - db
     ports:
       - 3001:3001
+    restart: always
     environment:
       MYSQL_USER: root
       MYSQL_PASSWORD: password
