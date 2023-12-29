@@ -4,7 +4,7 @@
   "description": "",
   "main": "./build/server",
   "scripts": {
-    "start": "ts-node-dev --inspect --respawn --transpile-only src/server.ts"
+    "start": "npx -y tsc && ts-node-dev --inspect --respawn src/server.ts"
   },
   "author": "",
   "license": "ISC",
