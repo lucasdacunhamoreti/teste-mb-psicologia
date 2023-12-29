@@ -6,7 +6,7 @@ services:
     container_name: backend
     tty: true
     stdin_open: true
-    command: bash -c "npm install && npx sequelize-cli db:create && npm start"
+    command: bash -c "npm install && npx sequelize-cli db:create && npx sequelize db:migrate && npm start"
     restart: always
     working_dir: /app-backend
     volumes:
