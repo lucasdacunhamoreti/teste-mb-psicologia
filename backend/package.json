@@ -4,8 +4,7 @@
   "description": "",
   "main": "./build/server",
   "scripts": {
-    "start": "npm run build && ts-node-dev --inspect --respawn src/server.ts",
-    "build": "npx -y tsc"
+    "start": "nodemon --watch \"./src/**\" ./src/server.ts"
   },
   "author": "",
   "license": "ISC",
