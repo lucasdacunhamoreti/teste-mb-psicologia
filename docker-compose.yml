@@ -33,7 +33,7 @@ services:
     container_name: frontend
     image: node
     restart: always
-    command: bash -c "npm install && npx ng serve --host=0.0.0.0 --disable-host-check"
+    command: bash -c "npm install && npm start"
     tty: true
     stdin_open: true
     expose:
