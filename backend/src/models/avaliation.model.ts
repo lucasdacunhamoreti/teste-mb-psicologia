@@ -29,5 +29,4 @@ export default class AvaliationModel {
         const result = await AvaliationModels.destroy({ where: { id } });
         return result;
     }
-
 }
