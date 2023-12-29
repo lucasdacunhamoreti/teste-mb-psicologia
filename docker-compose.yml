@@ -1,50 +1,27 @@
-version: '3.9'
+version: '3.1'
+
 services:
-  frontend:
-    build: ./frontend
-    ports:
-      - 3000:3000
-    working_dir: /app-frontend
+  node:
+    image: node
+    container_name: backend
+    tty: true
+    stdin_open: true
+    command: bash -c "npm install && npm start"
+    restart: always
+    working_dir: /app-backend
+    volumes:
+      - ./backend:/app-backend
     depends_on:
-      backend:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "lsof", "-t", "-i:3000"]
-      timeout: 10s
-      retries: 5
-  backend:
-    container_name: app_backend
-    build: ./backend
+      - db
     ports:
       - 3001:3001
-    working_dir: /app-backend
-    command: dev
-    volumes: 
-      - ./backend/src:/app-backend/src
-    depends_on:
-      db:
-        condition: service_healthy
     environment:
-      - APP_PORT=3001
-      - DB_USER=root
-      - DB_PASS=123456
-      - DB_HOST=db
-      - DB_PORT=3306
-    healthcheck:
-      test: ["CMD", "lsof", "-t", "-i:3001"]
-      timeout: 10s
-      retries: 5
-  db:
-    image: mysql:8.0.21
-    container_name: db
-    platform: linux/x86_64
-    ports:
-      - 3002:3306
-    environment:
-      - MYSQL_ROOT_PASSWORD=123456
-    restart: 'always'
-    healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-      retries: 5
-    cap_add:
-      - SYS_NICE
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: subjets
+      MYSQL_HOST: db
+      API_PORT: '3001'
+
+networks:
+  default:
+    name: my-network
