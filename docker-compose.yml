@@ -1,0 +1,51 @@
+version: '3.1'
+
+services:
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+    - 3306:3306
+  backend:
+    image: node
+    container_name: backend
+    tty: true
+    stdin_open: true
+    command: bash -c "npm install && npx sequelize-cli db:create && npx sequelize db:migrate && npm start"
+    restart: always
+    working_dir: /app-backend
+    volumes:
+      - ./backend:/app-backend
+    depends_on:
+      - db
+    ports:
+      - 3001:3001
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: subjsects
+      MYSQL_HOST: db
+      API_PORT: '3001'
+
+  frontend:
+    container_name: frontend
+    image: node
+    restart: always
+    command: bash -c "npm install && npx ng serve --host=0.0.0.0 --disable-host-check"
+    tty: true
+    stdin_open: true
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    working_dir: /app-frontend
+    volumes:
+      - ./frontend:/app-frontend
+    depends_on:
+      - node
+ 
+networks:
+  default:
+    name: my-network
