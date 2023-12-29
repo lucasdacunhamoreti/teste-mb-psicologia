@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import AvaliationService from '../services/avaliation.service';
-import StatusCode from '../utils/StatusCodes';
+import StatusCode from '../utils/StatusCode';
 
 export default class MatchController {
     private avaliationService: AvaliationService;
